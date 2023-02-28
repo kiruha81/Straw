@@ -1,24 +1,39 @@
-# README
+# 投稿されたあらゆるお店の位置や評価が知ることができるWebサイト "ストロー"
+### Store Locationを略してストローです。お店の情報を吸収できるという意味も込めています。
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## サイト概要
+### サイトテーマ
+#### ユーザーがジャンル問わずお店を投稿できます。
+#### また、投稿されたお店にレビューをすることができます。
+#### 検索機能をジャンル・都道府県・名称から検索でき、目的の店が見つけやすくなっています。
+#### コメント機能を設けることでユーザー間で店の特徴を教え合うなどのコミュニケーションを取ることができます。
+#### フォロー・フォロワー機能があり、相互限定でタイムラインもしくは日記が見れるようになることでユーザー間で交流ができます(仮)。
 
-Things you may want to cover:
 
-* Ruby version
+### テーマを選んだ理由
+#### 例えば地元の方が店についてレビューをし、田舎に転勤になったサラリーマンがすぐに様々な店を把握できるようになり、
+#### 更にコミュニケーションを取ることにより転勤後に地域の方と仲良くなれればという想いで制作しました。
 
-* System dependencies
+### ターゲットユーザ
+#### 引越し先や出張先で店を探すユーザー
+#### 地元や住まいでいいお店を紹介したいユーザー
+#### 外出予定を立てるためにお店を探すユーザー
 
-* Configuration
+### 主な利用シーン
+#### 休日にお出かけ先を探すときにレビューを見て参考にする
+#### 行ったお店や行ったことがあるお店を投稿し共有できる
+#### 他ユーザーとお店についてのコミュニケーションを行う
 
-* Database creation
+## 設計書
 
-* Database initialization
 
-* How to run the test suite
+## 開発環境
+- OS：Linux(CentOS)
+- 言語：HTML,CSS,JavaScript,Ruby,SQL
+- フレームワーク：Ruby on Rails
+- JSライブラリ：jQuery
+- IDE：Cloud9
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## 使用素材
+- 外部サービスの画像素材・音声素材を使用した場合は、必ずサービス名とURLを明記してください。
+- 使用しない場合は、使用素材の項目をREADMEから削除してください。
