@@ -1,0 +1,13 @@
+<h1>Admin::Genres#edit</h1>
+<p>Find me in app/views/admin/genres/edit.html.erb</p>
+<div class="container">
+  <div class="col-8 ml-5 my-5">
+    <h1>ジャンル編集</h1>
+
+    <%= bootstrap_form_with model: @genre, url: admin_genre_path, method: :patch do |f| %>
+      <%#= bootstrap_devise_error_messages! %>
+        <%= f.text_field :name, autofocus: true, placeholder: "2～20文字", class: 'form-control' %>
+        <%= f.submit %>
+    <% end %>
+  </div>
+</div>

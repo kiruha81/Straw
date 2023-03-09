@@ -1,0 +1,51 @@
+<%# 平均点を算出し、round関数で切り上げ %>
+<%= @all_rating %>：<%= @reviews.average(:all_rating).to_f.round(1) %>
+<%# 評価数を星に置き換える %>
+ <div class="average-review-rating" data-score=<%= @reviews.average(:all_rating) %>></div>
+
+<th class="table__col1">総合評価</th>
+ <td class="table__col1">  <div class="field" id="star"><% f.label :all_rating %></div></td>
+</tr>
+<%# 同様に、rating1なども記載する%>
+
+<%# 平均点を算出し、round関数で切り上げ %>
+<%= @rating1 %>：<%= @reviews.average(:rating1).to_f.round(1) %>
+<%# 評価数を星に置き換える %>
+ <div class="review-rating1" data-score=<%= @reviews.average(:rating1) %>></div>
+
+<th class="table__col1">評価1</th>
+ <td class="table__col1">  <div class="field" id="star"><% f.label :rating1 %></div></td>
+</tr>
+<%# 同様に、rating1なども記載する%>
+
+<%# 平均点を算出し、round関数で切り上げ %>
+<%= @rating2 %>：<%= @reviews.average(:rating2).to_f.round(1) %>
+<%# 評価数を星に置き換える %>
+ <div class="review-rating2" data-score=<%= @reviews.average(:rating2) %>></div>
+
+<th class="table__col1">評価2</th>
+ <td class="table__col1">  <div class="field" id="star"><% f.label :rating2 %></div></td>
+</tr>
+<%# 同様に、rating1なども記載する%>
+
+<%# 平均点を算出し、round関数で切り上げ %>
+<%= @rating3 %>：<%= @reviews.average(:rating3).to_f.round(1) %>
+<%# 評価数を星に置き換える %>
+ <div class="review-rating3" data-score=<%= @reviews.average(:rating3) %>></div>
+
+<th class="table__col1">評価3</th>
+ <td class="table__col1">  <div class="field" id="star"><% f.label :rating3 %></div></td>
+</tr>
+<%# 同様に、rating1なども記載する%>
+
+<%# 平均点を算出し、round関数で切り上げ %>
+<%= @rating4 %>：<%= @reviews.average(:rating4).to_f.round(1) %>
+<%# 評価数を星に置き換える %>
+ <div class="review-rating4" data-score=<%= @reviews.average(:rating4) %>></div>
+
+<th class="table__col1">評価4</th>
+ <td class="table__col1">  <div class="field" id="star"><% f.label :rating4 %></div></td>
+</tr>
+<%# 同様に、rating1なども記載する%>
+
+<%= render partial: "items/form_rate", locals: { shop: @shop } %>

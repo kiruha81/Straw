@@ -1,0 +1,24 @@
+<div class="container-login">
+  <div class="col-8 ml-5 my-5">
+    <h1><%= t('.sign_in') %></h1>
+
+    <%= bootstrap_form_with model: @admin, url: admin_session_path do |f| %>
+      <%= f.email_field :email, autofocus: true %>
+
+      <%= f.password_field :password, autocomplete: 'current-password' %>
+
+      <%# if devise_mapping.rememberable? %>
+        <!--<div class="form-group form-check">-->
+          <%#= f.check_box_without_bootstrap :remember_me, class: 'form-check-input' %>
+          <%#= f.label :remember_me, class: 'form-check-label' do %>
+            <%#= resource.class.human_attribute_name('remember_me') %>
+          <%# end %>
+        <!--</div>-->
+      <%# end %>
+
+      <%= f.submit  t('.sign_in'), class: 'btn btn-primary' %>
+    <% end %>
+
+    <%= render 'admin/shared/links' %>
+  </div>
+</div>

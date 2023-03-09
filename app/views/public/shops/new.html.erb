@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="col-8 ml-5 my-5">
+    <h1>新規投稿</h1>
+
+    <%= bootstrap_form_with model: @shop, url: shops_path, method: :post, local: true do |f| %>
+      <%= f.text_field :title, autofocus: true, placeholder: "" %>
+      <%= f.text_field :shop_name %>
+      <%= f.text_area :body %>
+      <%= f.collection_select :genre_id, Genre.all, :id, :name, {prompt: "ジャンルを選択"} %>
+      <%= f.file_field :shop_images, multiple: true, accept: "image/*" %>
+      <%= f.fields_for :map do |map| %>
+        <%= map.text_field :address %>
+      <% end %>
+      <%= f.submit "投稿する" %>
+    <% end %>
+  </div>
+</div>

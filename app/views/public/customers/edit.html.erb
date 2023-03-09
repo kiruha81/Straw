@@ -1,0 +1,57 @@
+<h1>Public::Customers#edit</h1>
+<p>Find me in app/views/public/customers/edit.html.erb</p>
+<div class="container">
+  <div class="col-8 ml-5 my-5">
+    <h1>会員情報編集</h1>
+
+    <%= form_with model: @customer, url: edit_customer_path do |f| %>
+      <%= bootstrap_devise_error_messages! %>
+      <div class="form-group">
+        <%= f.label :name %>
+        <%= f.text_field :name, autofocus: true, placeholder: "2～20文字", class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :gender %>
+        <%= f.select :gender, Customer.genders.keys.to_a, {prompt: "性別"}, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :prefecture %>
+        <%= f.select :prefecture, Customer.prefectures.keys.to_a, {prompt: "都道府県を選択"}, class: 'form-control' %>
+      </div>
+
+      <!--登録時に入力させるのは手間-->
+      <!--<div class="form-group">-->
+        <%#= f.label :introduction %>
+        <%#= f.text_area :introduction, placeholder: "こんにちは", class: 'form-control' %>
+      <!--</div>-->
+
+      <div class="form-group">
+        <%= f.label :email %>
+        <%= f.email_field :email, placeholder: "example@example.com", autocomplete: 'email', class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: 'current-password', class: 'form-control' %>
+
+        <% if @minimum_password_length %>
+          <small class="form-text text-muted"><%= t('public.shared.minimum_password_length', count: @minimum_password_length) %></small>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation, autocomplete: 'current-password', class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.submit t('.sign_up'), class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+
+    <%= render 'public/shared/links' %>
+
+  </div>
+</div>

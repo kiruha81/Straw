@@ -1,0 +1,118 @@
+<h1>Public::Shops#show</h1>
+<p>Find me in app/views/public/shops/show.html.erb</p>
+題名：<%= link_to @shop.title, shop_path(@shop), class: "text-dark" %>
+<p><%= link_to "https://www.google.com/search?q=#{@shop.shop_name}&oq=&aqs=chrome.2.35i39i362l7j69i59i450.151197398j0j15&sourceid=chrome&ie=UTF-8" do %><p>
+  <p><%= image_tag @shop.get_shop_image(600, 600) %></p>
+  <p class="text-dark"><%= @shop.shop_name %></p>
+<% end %></p>
+<h3>Review Average --></h3>
+<div id="review_avg" data-score="<%= @review_avg %>"></div>
+<script>
+    $('#review_avg').empty(); // Turbolinksで星が増殖する現象を解消
+    $('#review_avg').raty({
+        readOnly: true,
+        starOff: '<%= asset_path('star-off.png') %>',
+        starOn: '<%= asset_path('star-on.png') %>',
+        starHalf: '<%= asset_path('star-half.png') %>',
+        // divタグのdata-score属性から評価の平均値を呼び出す
+        score: function () {
+            return $(this).attr('data-score');
+        },
+    });
+</script>
+
+<h3>Review --></h3>
+<%# 評価済みの場合は、再評価できないようにする %>
+<% if @review_flg.blank? %>
+
+  <%# 自分自身の投稿には評価できないようにする %>
+  <% if @shop.customer_id == current_customer.id %>
+    <p>自分の投稿には、評価できません。</p>
+  <% else %>
+    <%= form_with model: @review, url: shop_reviews_path(@shop) do |review| %>
+      <div id="review"></div>
+      <%= review.submit %>
+    <% end %>
+
+    <script>
+        $('#review').empty(); // Turbolinksで星が増殖する現象を解消
+        $('#review').raty({
+            starOff: '<%= asset_path('star-off.png') %>',
+            starOn: '<%= asset_path('star-on.png') %>',
+            starHalf: '<%= asset_path('star-half.png') %>',
+            // 登録するモデル名とカラム名を記述
+            //  送信値として採用される
+            scoreName: 'review[star]',
+            half: true,
+        });
+    </script>
+  <% end %>
+
+<% else %>
+  <p>評価済みです。</p>
+  <ul>
+    <li>
+      <%= link_to '評価を削除', shop_review_path(@shop), method: :delete, data: { confirm: '評価削除しますか？' } %>
+    </li>
+  </ul>
+<% end %>
+<p>説明：<%= @shop.body %></p>
+
+<div id='map'></div>
+
+<style>
+    #map {
+        height: 400px;
+        width: 400px;
+    }
+</style>
+
+<script>
+    let map
+
+    const display = document.getElementById('display')
+
+    // mapの表示関数
+    function initMap() {
+        geocoder = new google.maps.Geocoder()
+
+        // mapの初期位置, 縮尺を定義
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+                lat: <%= @map.latitude %>,
+                lng: <%= @map.longitude %>
+            },
+            zoom: 18,
+        });
+
+        // mapsテーブルにあるそれぞれのレコードをmap上に表示
+            (function(){
+            var contentString = "住所：<%= @map.address %>";
+
+            // マーカーを立てる
+            var marker = new google.maps.Marker({
+                position:{lat: <%= @map.latitude %>, lng: <%= @map.longitude %>},
+                map: map,
+                title: contentString
+            });
+
+            // 情報ウィンドウ(吹き出し)の定義
+            // 投稿の詳細ページへのリンクも
+            var infowindow = new google.maps.InfoWindow({
+            position: {lat: <%= @map.latitude %>, lng: <%= @map.longitude %>},
+            content: "<a href='<%= shop_path(@shop.id) %>' target='_blank'><%= @map.address %></a>"
+            });
+
+            // クリックしたときに情報ウィンドウを表示
+            marker.addListener('click', function() {
+            infowindow.open(map, marker);
+            });
+
+            })();
+    }
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap"
+    async defer>
+</script>

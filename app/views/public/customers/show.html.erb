@@ -1,0 +1,23 @@
+<h1>Public::Customers#show</h1>
+<p>Find me in app/views/public/customers/show.html.erb</p>
+
+<p><%= image_tag @customer.get_profile_image(70, 70) %></p>
+<%= @customer.name %>
+<%= link_to edit_customer_registration_path do  %>
+  <div class="btn btn-primary"><i class="fas fa-cog"></i></div>
+<% end %>
+<%= link_to "投稿する", new_shop_path, class: "btn btn-warning" %>
+<p><%= @customer.introduction %></p>
+<p><%= @customer.gender %></p>
+<p><%= @customer.prefecture %></p>
+<% if @customer.id == current_customer.id %>
+  <p><%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "btn btn-secondary" %></p>
+<% end %>
+<% @shops.each do |shop| %>
+  <%= link_to shop.title, shop_path(shop), class: "text-dark" %>
+  <p><%= link_to "https://www.google.com/search?q=#{shop.shop_name}&oq=&aqs=chrome.2.35i39i362l7j69i59i450.151197398j0j15&sourceid=chrome&ie=UTF-8" do %>
+    <%= image_tag shop.get_shop_image(600, 600) %>
+  <% end %></p>
+  <p><%= shop.shop_name %></p>
+  <p><%= shop.body %></p>
+<% end %>
