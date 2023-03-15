@@ -14,7 +14,7 @@ class DeviseCreateCustomers < ActiveRecord::Migration[6.1]
       ## Rememberable
       t.datetime :remember_created_at
       t.string :name, null: false
-      t.integer :gender, null: false, default: 0
+      t.integer :gender, null: false
       t.integer :prefecture, null: false
       t.text :introduction
       t.boolean :is_deleted, null: false, default: false

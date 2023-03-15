@@ -9,6 +9,7 @@
       <%= f.collection_select :genre_id, Genre.all, :id, :name, {prompt: "ジャンルを選択"} %>
       <%= f.file_field :shop_images, multiple: true, accept: "image/*" %>
       <%= f.fields_for :map do |map| %>
+        <%= map.select :prefecture, Map.prefectures.keys.to_a, {prompt: "都道府県をを選択"} %>
         <%= map.text_field :address %>
       <% end %>
       <%= f.submit "投稿する" %>

@@ -1,0 +1,10 @@
+<h1><%= current_customer.name %>(あなた)のお気に入りの店一覧</h1>
+
+<% current_customer.favorites.each do |favorite| %>
+  <%= favorite.shop.title %>
+  <%= link_to shop_path(favorite.shop.id) do %>
+    <p><%= image_tag favorite.shop.get_shop_image(600, 600) %></p>
+    <p class="text-dark"><%= favorite.shop.shop_name %></p>
+  <% end %>
+  <%= favorite.shop.body %>
+<% end %>

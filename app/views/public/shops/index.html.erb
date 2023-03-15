@@ -1,5 +1,13 @@
 <h1>Public::Shops#index</h1>
 <p>Find me in app/views/public/shops/index.html.erb</p>
+<% @genres.each do |genre| %>
+  <p><small><%= link_to genre.name, shops_path(genre_id: genre.id) %></small></p>
+<% end %><br>
+<% @prefectures.each do |pre| %>
+  <p><small><%= link_to pre[0], shops_path(prefecutre_id: pre[1]) %></small></p>
+<% end %><br>
+<input id="address" type="textbox" value="GeekSalon">
+<input type="button" value="Encode" onclick="codeAddress()">
 <div id='map'></div>
 
 <style>
@@ -30,7 +38,7 @@
     // mapsテーブルにあるそれぞれのレコードをmap上に表示
     <% @shops.each do |m| %>
       (function(){
-      var contentString = "住所：<%= m.map.address %>";
+      var contentString = "<%= m.shop_name %>：<%= m.map.address %>";
 
       // マーカーを立てる
       var marker = new google.maps.Marker({
@@ -43,7 +51,7 @@
       // 投稿の詳細ページへのリンクも
       var infowindow = new google.maps.InfoWindow({
       position: {lat: <%= m.map.latitude %>, lng: <%= m.map.longitude %>},
-      content: "<a href='<%= shop_path(m.id) %>' target='_blank'><%= m.map.address %></a>"
+      content: "<a href='<%= shop_path(m.id) %>' target='_blank'><%= m.shop_name %><br><%= m.map.address %></a>"
       });
 
       // クリックしたときに情報ウィンドウを表示
@@ -85,17 +93,20 @@
 </script>
 
 <h3>場所一覧</h3>
-<% @shops.each do |t| %>
-  <p><%= link_to shop_path(t.id) do %><p>
-    <p><%= image_tag t.get_shop_image(600, 600) %></p>
-    <p class="text-dark"><%= t.shop_name %></p>
+<% @shops.each do |shop| %>
+  <p><%= link_to shop_path(shop.id) do %><p>
+    <% shop.shop_images.each do |shop_image| %>
+    <p><%= image_tag shop_image, size: "400x400" %></p>
+    <% end %>
+    <p class="text-dark"><%= shop.shop_name %></p>
   <% end %>
+  <p>タグ：<%= shop.genre.name %></p>
   <!--<div class="average-review-rating" data-score=<%#= t.reviews.average(:star) %>></div>-->
   <!--<%#=@all_rating %>：<%#= t.reviews.average(:star).to_f.round(1) %>-->
   <!--</div>-->
-  <p>住所 : <%= t.map.address %></p>
-  <% if t.customer_id == current_customer.id %>
-    <p><%= link_to "削除する", shop_path(t.id), method: :delete %></p>
+  <p>住所 : <%= shop.map.address %></p>
+  <% if shop.customer_id == current_customer.id %>
+    <p><%= link_to "削除する", shop_path(shop.id), method: :delete %></p>
     <% else %>
   <% end %>
   <hr>

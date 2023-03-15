@@ -1,0 +1,43 @@
+<% unless current_page?(root_path) %>
+  <header class="shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand p-3" href="/"><%= image_tag('straw_logo.png') %></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+          <%= search_form_for q, url: search_shops_path, class: "form-inline" do |f| %>
+            <%= f.search_field :shop_name_or_title_or_body_cont, placeholder: "検索", required: true %>
+            <%= f.submit '🔍', class: "btn-sm btn-outline-secondary" %>
+          <% end %>
+          </li>
+          <% if customer_signed_in? %>
+          <li class="nav-item">
+            <%= link_to '投稿する', new_shop_path, class: 'nav-link text-dark' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "お店一覧", shops_path, class: 'nav-link text-dark' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'マイページ', customer_path(current_customer.id), class: 'nav-link text-dark' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: 'nav-link text-dark' %>
+          </li>
+          <% else %>
+          <li class="nav-item">
+            <%= link_to "新規登録", new_customer_registration_path, class: 'nav-link text-dark' %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "ログイン", new_customer_session_path, class: 'nav-link text-dark' %>
+          </li>
+          <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+<% end %>

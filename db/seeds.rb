@@ -10,7 +10,7 @@ Admin.create!(
     password: 'admin999',
   )
 
-Genre.create(
+Genre.create!(
   [
     { name: 'レストラン' },
     { name: 'カフェ' },

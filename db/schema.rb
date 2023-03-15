@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 2023_03_07_021222) do
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.string "name", null: false
-    t.integer "gender", default: 0, null: false
+    t.integer "gender", null: false
     t.integer "prefecture", null: false
     t.text "introduction"
     t.boolean "is_deleted", default: false, null: false
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2023_03_07_021222) do
 
   create_table "maps", force: :cascade do |t|
     t.integer "shop_id", null: false
+    t.integer "prefecture", null: false
     t.string "address", null: false
     t.float "latitude", null: false
     t.float "longitude", null: false

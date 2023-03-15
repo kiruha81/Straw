@@ -1,0 +1,9 @@
+<% if shop.favorite_by?(current_customer) %>
+  <%= link_to shop_favorites_path(shop), method: :delete, remote: true do %>
+    <i class="fas fa-heart text-danger"></i>
+  <% end %><%= shop.favorites.count %>
+<% else %>
+  <%= link_to shop_favorites_path(shop), method: :post, remote: true do %>
+    <i class="far fa-heart text-danger"></i>
+  <% end %><%= shop.favorites.count %>
+<% end %>

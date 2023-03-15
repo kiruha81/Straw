@@ -10,6 +10,9 @@ ja:
         address: お店の住所
       genre:
         name: 店の種類
+      comment:
+        title: 題名
+        comment: コメント
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
@@ -19,6 +22,7 @@ ja:
     models:
       shop: お店
       genre: 種類
+      comment: コメント
   date:
     abbr_day_names:
     - 日
@@ -193,10 +197,10 @@ ja:
       long: "%Y/%m/%d %H:%M"
       short: "%m/%d %H:%M"
     pm: 午後
-  views:
-    pagination:
-      first: <i class="fal fa-angle-double-left"></i>
-      last: <i class="fal fa-angle-double-right"></i>
-      previous: <i class="fal fa-angle-left"></i>
-      next: <i class="fal fa-angle-right"></i>
-      truncate: "..."
+  #views:
+    #pagination:
+      #first: <<
+      #last: >>
+      #previous: <
+      #next: ">"
+      #truncate: "..."

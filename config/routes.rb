@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     sessions: "public/sessions",
     passwords: "public/passwords"
   }
+  devise_scope :customer do
+    post "customers/guest_sign_in", to: "public/sessions#guest_sign_in"
+  end
 
   devise_for :admin, skip: [:registrations, :passwords] ,controllers: {
     sessions: "admin/sessions"
@@ -19,13 +22,17 @@ Rails.application.routes.draw do
       get "followings" => "relationships#followings", as: "followings"
       get "followers" => "relationships#followers", as: "followers"
     end
-    get "customers/unsubscribe" => "customers#unsubscribe"
-    patch "/customers/withdrawal" => "customers#withdrawal"
+    get "/customers/unsubscribe" => "customers#unsubscribe"
+    patch "/customers/:current_customer_id/withdrawal" => "customers#withdrawal"
+    get "/favorites" => "customers#favorites", as: "favorites"
 
     resources :shops, except: [:destroy] do
       resources :comments, only: [:create, :destroy]
-      resource :favorites, only: [:create, :destroy, :index]
+      resource :favorites, only: [:create, :destroy]
       resources :reviews, only: [:create, :destroy]
+      collection do
+        get "search"
+      end
     end
     resources :maps
 
