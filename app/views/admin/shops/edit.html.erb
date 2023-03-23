@@ -1,2 +1,30 @@
-<h1>Admin::Shops#edit</h1>
-<p>Find me in app/views/admin/shops/edit.html.erb</p>
+<div class="container">
+  <div class="col-8 ml-5 my-5">
+    <h1>投稿編集</h1>
+    <small class="form-text text-muted">正しい住所を入力してください</small>
+    <small class="form-text text-muted">
+      住所検索は<%= link_to "https://www.google.com/maps/", target: :_blank, rel: "noopener noreferrer" do %>
+      こちら
+      <% end %>(Google Map)
+    </small><br>
+
+    <%= bootstrap_form_with model: @shop, url: admin_shop_path(@shop), method: :patch, local: true do |f| %>
+      <%= f.text_field :title, autofocus: true, placeholder: "" %>
+      <%= f.text_field :shop_name %>
+      <%= f.text_area :body %>
+      <%= f.collection_select :genre_id, Genre.all, :id, :name, {prompt: "ジャンルを選択"} %>
+      <%#= f.file_field :shop_images, multiple: true, accept: "image/*" %>
+      <!--↑編集じゃなくて画像を追加したい！-->
+      <%= f.fields_for :map do |map| %>
+        <%= map.select :prefecture, Map.prefectures.keys.to_a, {prompt: "都道府県を選択"} %>
+        <%= map.text_field :address %>
+      <% end %>
+      <div class="col-xs-12">
+        <%= f.label "公開・非公開" %><br>
+        <%= f.radio_button_without_bootstrap :is_hidden, :false %> 公開
+        <%= f.radio_button_without_bootstrap :is_hidden, :true %> 非公開
+      </div>
+      <%= f.submit "更新する" %>
+    <% end %>
+  </div>
+</div>

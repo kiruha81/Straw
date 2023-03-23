@@ -1,45 +1,68 @@
-<h1>Public::Customers#show</h1>
-<p>Find me in app/views/public/customers/show.html.erb</p>
-
-<p><%= image_tag @customer.get_profile_image(70, 70) %></p>
-<%= @customer.name %>
-<% unless @customer.name == "ゲストさん" %>
-  <%= link_to edit_customer_registration_path do  %>
-    <div class="btn btn-primary"><i class="fas fa-cog"></i></div>
-  <% end %>
-<%= link_to "投稿する", new_shop_path, class: "btn btn-warning" %>
-<% end %>
-<p><%= @customer.introduction %></p>
-<p><%= @customer.gender %></p>
-<p><%= @customer.prefecture %></p>
-<% if @customer.id == current_customer.id %>
-  <p><%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "btn btn-secondary" %></p>
-<% elsif @customer.name == "ゲストさん" %>
-  <p><%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "btn btn-danger" %></p>
-<% end %>
-<% @shops.each do |shop| %>
-  <%= link_to shop.title, shop_path(shop), class: "text-dark" %>
-  <p><%= link_to "https://www.google.com/search?q=#{shop.shop_name}&oq=&aqs=chrome.2.35i39i362l7j69i59i450.151197398j0j15&sourceid=chrome&ie=UTF-8" do %>
-    <% shop.shop_images.each do |shop_image| %>
-    <%= image_tag shop_image, size: "400x400" %>
+<div class="container">
+  <div class="col-12 ml-5 my-5">
+    <%= flash[:notice] %>
+    <p>
+    <% if @customer.id == current_customer.id %>
+      <h2>マイページ</h2>
+    <% else %>
+      <h3><%= @customer.name %> さんのプロフィール</h3>
     <% end %>
-  <% end %></p>
-  <p><%= shop.shop_name %></p>
-  <div id="review_avg" data-score="<%= @review_avg %>"></div>
-  <script>
-    $('#review_avg').empty(); // Turbolinksで星が増殖する現象を解消
-    $('#review_avg').raty({
-      readOnly: true,
-      starOff: '<%= asset_path('star-off.png') %>',
-      starOn: '<%= asset_path('star-on.png') %>',
-      starHalf: '<%= asset_path('star-half.png') %>',
-      hints: ["非常に不評", "不評", "賛否両論", "好評", "非常に好評"],
-      // divタグのdata-score属性から評価の平均値を呼び出す
-      score: function () {
-        return $(this).attr('data-score');
-      },
-    });
-  </script>
-  <%#= @review.count %>
-  <p><%= shop.body %></p>
-<% end %>
+    </p>
+    <% if @customer.is_deleted == false %>
+      <%= image_tag @customer.get_profile_image(70, 70) %>
+      <table class="table">
+        <tr>
+          <th>ユーザー名</th>
+          <td><%= @customer.name %></td>
+        </tr>
+        <tr>
+          <th>性別</th>
+          <td><%= @customer.gender %></td>
+        </tr>
+        <tr>
+          <th>現住</th>
+          <td><%= @customer.prefecture %></td>
+        </tr>
+        <tr>
+          <th>自己紹介</th>
+          <td><%= @customer.introduction %></td>
+        </tr>
+        <tr>
+        <tr></tr>
+        <tr></tr>
+      </table>
+      <hr>
+        <p>
+          <% if @customer.name != "ゲストさん" && @customer.id == current_customer.id %>
+            <%= link_to "編集する", edit_customer_registration_path, class: "btn btn-success" %>
+            <%= link_to "投稿する", new_shop_path, class: "btn btn-warning" %>
+            <%= link_to "いいね一覧", favorites_path, class: "btn btn-danger" %>
+            <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "btn btn-secondary" %>
+          <% elsif @customer.name == "ゲストさん" %>
+            <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "btn btn-secondary" %>
+          <% else %>
+          <% end %>
+        </p>
+      <% if @customer.id == current_customer.id %>
+        <h3>投稿したお店</h3>
+      <% else %>
+        <h3><%= @customer.name %> さんの投稿したお店</h3>
+      <% end %>
+      <hr>
+      <% if @shops.where(customer_id: params[:id]).blank? && @customer.id != current_customer.id %>
+        投稿はありません
+      <% elsif @shops.where(customer_id: params[:id]).blank? && @customer.id == current_customer.id && @customer.name != "ゲストさん" %>
+        まだ投稿していません。<%= link_to "お店を投稿", new_shop_path %>してみましょう！
+      <% else %>
+        <% @shops.each do |shop| %>
+          <%= link_to shop.title, shop_path(shop), class: "text-dark" %>
+          <p><%= shop.shop_name %></p>
+          <hr>
+        <% end %>
+      <% end %>
+    <% else %>
+      退会済ユーザーです。
+    <% end %>
+  </div>
+</div>
+

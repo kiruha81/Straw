@@ -2,6 +2,7 @@
 
 class Public::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
+  before_action :reject_customer, only: [:create]
 
   # GET /resource/sign_in
   # def new
@@ -24,7 +25,7 @@ class Public::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-  
+
   def guest_sign_in
     customer = Customer.guest
     sign_in customer
@@ -40,4 +41,15 @@ class Public::SessionsController < Devise::SessionsController
   def after_sign_out_path_for(resource)
     root_path
   end
+
+  def reject_customer
+    @customer = Customer.find_by(name: params[:customer][:name])
+    if @customer
+      if @customer.valid_password?(params[:customer][:password]) && (@customer.is_deleted == true)
+        flash[:notice] = "⚠このユーザーは退会済です。"
+        redirect_to new_customer_session_path
+      end
+    end
+  end
+
 end

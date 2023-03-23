@@ -1,5 +1,5 @@
 <div class="container-login">
-  <div class="col-8 ml-5 my-5">
+  <div class="col-11 ml-5 my-5">
 
     <h1><%= t('.title', resource: resource_name.to_s.humanize) %></h1>
 
@@ -59,8 +59,7 @@
       <!--</div>-->
     <% end %>
 
-    <!--アカウントは論理削除します-->
-    <%#= t('.unhappy') %> <%#= link_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %>
+    <div class="ml-auto"><%= link_to " 退会する", customers_unsubscribe_path(current_customer), class: "glyphicon glyphicon-tint btn btn-danger col-sm-3", style: "margin: 10px;" %></div>
 
   </div>
 </div>

@@ -2,7 +2,7 @@ class Public::CustomersController < ApplicationController
   before_action :authenticate_customer!
   before_action :ensure_guest_customer, only: [:edit]
   def index
-    @customer = Customer.all
+    @customers = Customer.page(params[:page]).per(6)
   end
 
   def show
@@ -24,12 +24,19 @@ class Public::CustomersController < ApplicationController
   end
 
   def unsubscribe
+    @customer = current_customer
   end
 
   def withdrawal
+    @customer = current_customer
+    @customer.update(is_deleted: true)
+    reset_session
+    flash[:notice] = "退会が完了しました！"
+    redirect_to root_path
   end
 
   def favorites
+    @customers = Customer.all
   end
 
   private

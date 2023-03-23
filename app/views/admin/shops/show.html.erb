@@ -1,2 +1,145 @@
-<h1>Admin::Shops#show</h1>
-<p>Find me in app/views/admin/shops/show.html.erb</p>
+<div class="container">
+  <div class="col-12 ml-5 my-5">
+    <p>
+    <h2>店情報</h2>
+    </p>
+    <table class="table table-bordered">
+      <tr>
+        <th>題名</th>
+        <td><%= link_to @shop.title, admin_shop_path(@shop), class: "text-dark" %></td>
+      </tr>
+      <tr>
+        <th>写真</th>
+        <td>
+          <% @shop.shop_images.each do |shop_image| %>
+          <%= image_tag shop_image, size:"480x300" %>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <th>店名</th>
+        <td><%= @shop.shop_name %></td>
+      </tr>
+      <tr>
+        <th>種類</th>
+        <td><%= @shop.genre.name %></td>
+      </tr>
+      <tr>
+        <th>評価</th>
+        <td>
+          <div id="review_avg" data-score="<%= @review_avg %>"></div>(
+          <% if @shop.reviews.present? %>
+          <small><%= link_to @shop.reviews.count, shop_reviews_path(@shop.id) %>
+          <% else %>
+          <small><%= @shop.reviews.count %>
+          <% end %>
+          件の評価</small>)
+        </td>
+      </tr>
+      <tr>
+        <th>住所</th>
+        <td><%= @shop.map.prefecture %><%= @shop.map.address %></td>
+      </tr>
+      <tr>
+        <th>説明</th>
+        <td><%= @shop.body %></td>
+      </tr>
+      <tr>
+        <th>場所</th>
+        <td><div id='map'></div></td>
+      </tr>
+      <tr>
+        <th>いいね</th>
+        <td>
+        <i class="far fa-heart text-danger"></i>
+        <%= @shop.favorites.count %>
+        </td>
+      </tr>
+      <tr>
+        <th>公開設定</th>
+        <td><%= @shop.is_hidden ? "非公開" : "公開" %></td>
+      </tr>
+      <tr></tr>
+      <tr></tr>
+    </table>
+    <%= link_to "編集する", edit_admin_shop_path(@shop), class: "btn btn-success" %>
+  </div>
+</div>
+<div id="comment_area_<%= @shop.id %>"><%= render 'admin/comments/comments', shop: @shop, comment: @comment %></div>
+
+
+<script>
+  $('#review_avg').empty(); // Turbolinksで星が増殖する現象を解消
+  $('#review_avg').raty({
+    readOnly: true,
+    starOff: '<%= asset_path('star-off.png') %>',
+    starOn: '<%= asset_path('star-on.png') %>',
+    starHalf: '<%= asset_path('star-half.png') %>',
+    hints: ["非常に不評", "不評", "賛否両論", "好評", "非常に好評"],
+    // divタグのdata-score属性から評価の平均値を呼び出す
+    score: function () {
+      return $(this).attr('data-score');
+    },
+  });
+</script>
+
+<style>
+  #map {
+    height: 600px;
+    width: 980px;
+  }
+</style>
+
+<script>
+  let map
+
+  const display = document.getElementById('display')
+
+  // mapの表示関数
+  function initMap() {
+    geocoder = new google.maps.Geocoder()
+
+    // mapの初期位置, 縮尺を定義
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {
+        lat: <%= @map.latitude %>,
+        lng: <%= @map.longitude %>
+      },
+      zoom: 18,
+    });
+
+    // mapsテーブルにあるそれぞれのレコードをmap上に表示
+    (function(){
+    var contentString = "住所：<%= @map.prefecture %><%= @map.address %>";
+
+    // マーカーを立てる
+    var marker = new google.maps.Marker({
+        position:{lat: <%= @map.latitude %>, lng: <%= @map.longitude %>},
+        map: map,
+        title: contentString
+    });
+
+    // 情報ウィンドウ(吹き出し)の定義
+    // 投稿の詳細ページへのリンクも
+    var infowindow = new google.maps.InfoWindow({
+    position: {lat: <%= @map.latitude %>, lng: <%= @map.longitude %>},
+    content: "<a href='<%= shop_path(@shop.id) %>' target='_blank'><%= @map.prefecture %><%= @map.address %></a>"
+    });
+
+    // クリックしたときに情報ウィンドウを表示
+    marker.addListener('click', function() {
+    infowindow.open(map, marker);
+    });
+
+  })();
+  }
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap"
+    async defer>
+</script>
+
+
+
+

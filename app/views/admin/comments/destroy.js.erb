@@ -1,0 +1,2 @@
+$("#comment_area_<%= @shop.id %>").html("<%= j(render 'public/comments/comments', shop: @shop) %>")
+$('#comment').html("<%= j(render 'public/comments/comment_form', shop: @shop, comment: @comment) %>")

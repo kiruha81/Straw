@@ -15,6 +15,9 @@ ja:
         prefecture: 都道府県
         introduction: 自己紹介
         profile_image: プロフィール画像
+        is_deleted:
+          False: 退会
+          True: 有効
         encrypted_password: 暗号化パスワード
         failed_attempts: 失敗したログイン試行回数
         last_sign_in_at: 最終ログイン時刻

@@ -1,2 +1,119 @@
-<h1>Admin::Shops#index</h1>
-<p>Find me in app/views/admin/shops/index.html.erb</p>
+<div class="container my-5">
+<h2><span class="text-danger"><%= @count %> </span>件の店</h2><br>
+  <div class="row">
+    <div class="col-1">種類
+      <% @genres.each do |genre| %>
+        <div><small><%= link_to genre.name, admin_shops_path(genre_id: genre.id), class: "text-dark" %></small></div>
+      <% end %>
+    </div>
+    <div class="col-1">都道府県
+      <% @prefectures.each do |pre| %>
+        <div><small><%= link_to pre[0], admin_shops_path(prefecture_id: pre[1]), class: "text-dark" %></small></div>
+      <% end %>
+    </div>
+    <div class="col-8">
+      <div class="row">
+        <div class="col-12">
+        <input id="address" type="textbox" placeholder="地図検索">
+        <input type="button" value="Encode" onclick="codeAddress()">
+        <div id='map'></div><br>
+
+        <style>
+            #map {
+                height: 1000px;
+                width: 1000px;
+            }
+        </style>
+
+        <script>
+          let map
+
+          const display = document.getElementById('display')
+
+          // mapの表示関数
+          function initMap() {
+            geocoder = new google.maps.Geocoder()
+
+            // mapの初期位置, 縮尺を定義
+            map = new google.maps.Map(document.getElementById('map'), {
+              center: {
+                lat: 35.6458437,
+                lng: 139.7046171
+              },
+              zoom: 5.7,
+            });
+
+            // mapsテーブルにあるそれぞれのレコードをmap上に表示
+            <% @shops.each do |map| %>
+              (function(){
+              var contentString = "<%= map.shop_name %>：<%= map.map.address %>";
+
+              // マーカーを立てる
+              var marker = new google.maps.Marker({
+                position:{lat: <%= map.map.latitude %>, lng: <%= map.map.longitude %>},
+                map: map,
+                title: contentString
+              });
+
+              // 情報ウィンドウ(吹き出し)の定義
+              // 投稿の詳細ページへのリンクも
+              var infowindow = new google.maps.InfoWindow({
+              position: {lat: <%= map.map.latitude %>, lng: <%= map.map.longitude %>},
+              content: "<a href='<%= admin_shop_path(map.id) %>' target='_blank'><%= map.shop_name %><br><%= map.map.address %></a>"
+              });
+
+              // クリックしたときに情報ウィンドウを表示
+              marker.addListener('click', function() {
+              infowindow.open(map, marker);
+              });
+
+              })();
+            <% end %>
+          }
+
+          let geocoder
+
+          // 地図検索関数
+          function codeAddress() {
+            let inputAddress = document.getElementById('address').value;
+
+            geocoder.geocode({
+              'address': inputAddress
+            }, function (results, status) {
+              if (status == 'OK') {
+                map.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                  map: map,
+                  position: results[0].geometry.location
+              });
+
+              display.textContent = "検索結果：" + results[ 0 ].geometry.location
+              } else {
+                 alert('該当する結果がありませんでした：' + status);
+                }
+            });
+          }
+        </script>
+
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap"
+            async defer>
+        </script>
+
+        <h3>場所一覧</h3>
+        <% @shops.each do |shop| %>
+          <p><%= link_to admin_shop_path(shop.id) do %><p>
+            <div class="text-dark"><%= shop.shop_name %></div>
+          <% end %>
+          <div class=""><small class=""><%= shop.genre.name %></small></div>
+          <!--<div class="average-review-rating" data-score=<%#= t.reviews.average(:star) %>></div>-->
+          <!--<%#=@all_rating %>：<%#= t.reviews.average(:star).to_f.round(1) %>-->
+          <!--</div>-->
+          <p><%= shop.map.address %></p>
+          <hr>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

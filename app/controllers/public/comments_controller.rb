@@ -4,7 +4,10 @@ class Public::CommentsController < ApplicationController
     @comment = Comment.new
     comment = current_customer.comments.new(comment_params)
     comment.shop_id = @shop.id
-    comment.save
+    if @comment.save
+    else
+      render shop_path(@shop)
+    end
   end
 
   def destroy

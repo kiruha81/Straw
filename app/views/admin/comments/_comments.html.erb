@@ -5,12 +5,7 @@
     <table class="table table-borderless">
       <thead>
       <tr>
-        <th>
-          <%= comment.title %> 
-          <% if comment.customer == current_customer %>
-            <%= link_to '削除', shop_comment_path(shop, comment), method: :delete, data: { confirm: '本当に消します？' }, class: "btn btn-sm btn-danger", remote: true %>
-          <% end %>
-        </th>
+        <th><%= comment.title %> <%= link_to '削除', shop_comment_path(shop, comment), method: :delete, data: { confirm: '本当に消します？' }, class: "btn btn-sm btn-danger", remote: true %></th>
         <td></td>
       </tr>
       <tr>
@@ -19,11 +14,11 @@
             <%= image_tag comment.customer.get_profile_image(50, 50) %><br>
             <div class='text-dark'><%= comment.customer.name %></div>
           <% end %>
-          <% review_count = Review.find_by(customer_id: comment.customer.id, shop_id: shop.id)&.star || 0 %>
-          <span id="review_customer_<%= comment.id %>" data-score="<%= review_count %>"></span>
-          (<%= review_count %>)
         </td>
         <td>
+          <% review_count = Review.find_by(customer_id: comment.customer.id, shop_id: shop.id)&.star || 0 %>
+          <div id="review_customer_<%= comment.id %>" data-score="<%= review_count %>"></div>
+          (<%= review_count %>)
         </td>
       </tr>
     </thead>
@@ -31,8 +26,8 @@
     </tbody>
 
     </table>
-    <%= comment.comment %><br>
-    <small><%= comment.created_at.strftime('%Y/%m/%d(%a) %R') %></small>
+    <small><%= comment.comment %></small><br>
+    <div><%= comment.created_at.strftime('%Y/%m/%d(%a) %R') %></div>
     <script>
       $(document).on('DOMContentLoaded', function(event) {
         $('#review_customer_<%= comment.id %>').raty({

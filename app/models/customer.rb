@@ -29,6 +29,7 @@ class Customer < ApplicationRecord
   validates :introduction, length: { maximum: 50 }
   validates :gender, presence: true
   validates :prefecture, presence: true
+  #validates :is_deleted, inclusion: { in: [true, false] }
 
   # プロフィール画像設定
   def get_profile_image(width, height) # 引数でサイズ変更

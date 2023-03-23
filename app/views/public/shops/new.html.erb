@@ -1,6 +1,12 @@
 <div class="container">
-  <div class="col-8 ml-5 my-5">
-    <h1>新規投稿</h1>
+  <div class="col-11 ml-5 my-5">
+    <h2>新規投稿</h2>
+    <small class="form-text text-muted">正しい名称・住所を入力してください</small>
+    <small class="form-text text-muted">
+      検索は<%= link_to "https://www.google.com/maps/", target: :_blank, rel: "noopener noreferrer" do %>
+      こちら
+      <% end %>(Google Map)
+    </small><br>
 
     <%= bootstrap_form_with model: @shop, url: shops_path, method: :post, local: true do |f| %>
       <%= f.text_field :title, autofocus: true, placeholder: "" %>
@@ -9,7 +15,7 @@
       <%= f.collection_select :genre_id, Genre.all, :id, :name, {prompt: "ジャンルを選択"} %>
       <%= f.file_field :shop_images, multiple: true, accept: "image/*" %>
       <%= f.fields_for :map do |map| %>
-        <%= map.select :prefecture, Map.prefectures.keys.to_a, {prompt: "都道府県をを選択"} %>
+        <%= map.select :prefecture, Map.prefectures.keys.to_a, {prompt: "都道府県を選択"} %>
         <%= map.text_field :address %>
       <% end %>
       <%= f.submit "投稿する" %>

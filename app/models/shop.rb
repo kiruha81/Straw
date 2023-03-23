@@ -11,6 +11,7 @@ class Shop < ApplicationRecord
   validates :title, presence: true
   validates :body, presence: true
   validates :shop_name, presence: true
+  validates :genre, presence: true
 
   def favorite_by?(customer)
     favorites.exists?(customer_id: customer.id)

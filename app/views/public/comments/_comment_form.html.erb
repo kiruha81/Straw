@@ -1,5 +1,9 @@
-<%= bootstrap_form_with(model: [shop, comment], local: false) do |f| %>
-  <td><%= f.text_area :title, size: "48x1", placeholder: "タイトルを記入" %></td>
-  <td><%= f.text_area :comment, size: "48x1", placeholder: "コメントどうぞ" %></td>
-  <td><%= f.submit "コメントを送信" %></td>
-<% end %>
+<div class="container">
+  <div class="col-11 ml-5 my-5">
+    <%= bootstrap_form_with(model: [shop, comment], local: false) do |f| %>
+      <td><%= f.text_field :title, placeholder: "タイトルを記入" %></td>
+      <td><%= f.text_area :comment, size: "48x3", placeholder: "コメントを記入 500文字まで" %></td>
+      <td><%= f.submit "送信" %></td>
+    <% end %>
+  </div>
+</div>

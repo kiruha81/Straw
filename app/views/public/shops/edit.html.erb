@@ -1,2 +1,10 @@
-<h1>Public::Shops#edit</h1>
-<p>Find me in app/views/public/shops/edit.html.erb</p>
+<h1>Shops#edit</h1>
+<p>Find me in app/views/shops/edit.html.erb</p>
+<%= form_with model: @shop, url: shop_path, method: :patch, local: true do |f| %>
+  <div>題名：<%= f.text_field :title, size: "38" %></div>
+  <div>店名：<%= f.text_field :shop_name, size: "38" %></div>
+  <!--<div>画像：<%#= f.file_field :shop_images, multiple: true, accept: "image/*" %></div>-->
+  <!--↑編集じゃなくて画像を追加したい！-->
+  <div>説明：<%= f.text_area :body, size: "40x2" %></div>
+  <%= f.submit "店を更新！" %>
+<% end %>

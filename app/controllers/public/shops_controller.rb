@@ -11,9 +11,9 @@ class Public::ShopsController < ApplicationController
       @shops = @genre.shops.page(params[:page]).per(6)
       @count = @genre.shops.count
     elsif params[:prefecture_id].present?
-      #@map = @prefectures.find(params[:prefecture_id)
-      #@shops = @map.shops.page(params[:page]).per(6)
-      #@shop = Shop.find(@map.plcuk(:shop_id))
+      @prefecture = Map.where(prefecture: params[:prefecture_id])&.pluck(:shop_id)
+      @shops = Shop.where(id: @prefecture).page(params[:page]).per(6)
+      @count = @shops.count
     else
       @shops = Shop.page(params[:page]).per(6)
       @count = Shop.all.count
@@ -23,10 +23,13 @@ class Public::ShopsController < ApplicationController
   def show
     @shop = Shop.find(params[:id])
     @map = @shop.map
-    @review = Review.new
     @comment = Comment.new
+    @review = Review.new
+    @reviews = @shop.reviews
+    @count = @reviews.count
     @review_avg = Review.where(shop_id: params[:id]).average(:star)
     @review_flg = Review.find_by(customer_id: current_customer.id, shop_id: params[:id])
+    @customer = Review.find_by(customer_id: params[:id])
   end
 
   def new
@@ -37,7 +40,7 @@ class Public::ShopsController < ApplicationController
   def create
     @shop = Shop.new(shop_params)
     @shop.customer_id = current_customer.id
-    if @shop.save!
+    if @shop.save
       redirect_to shop_path(@shop.id)
     else
       render :new

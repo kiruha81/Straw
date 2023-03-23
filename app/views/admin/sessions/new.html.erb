@@ -1,7 +1,7 @@
 <div class="container-login">
-  <div class="col-8 ml-5 my-5">
+  <div class="col-11 ml-5 my-5">
     <h1><%= t('.sign_in') %></h1>
-
+    <%= flash[:notice] %>
     <%= bootstrap_form_with model: @admin, url: admin_session_path do |f| %>
       <%= f.email_field :email, autofocus: true %>
 

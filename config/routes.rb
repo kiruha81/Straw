@@ -17,19 +17,19 @@ Rails.application.routes.draw do
     root to: "homes#top"
     get "/about" => "homes#about"
 
-    resources :customers, except: [:new, :create, :destroy] do
+    resources :customers, except: [:new, :index, :create, :destroy] do
       resource :relationships, only: [:create, :destroy]
       get "followings" => "relationships#followings", as: "followings"
       get "followers" => "relationships#followers", as: "followers"
     end
-    get "/customers/unsubscribe" => "customers#unsubscribe"
-    patch "/customers/:current_customer_id/withdrawal" => "customers#withdrawal"
+    get "/customers/:current_customer_id/unsubscribe" => "customers#unsubscribe", as: "customers/unsubscribe"
+    patch "/customers/:current_customer_id/withdrawal" => "customers#withdrawal", as: "customers/withdrawal"
     get "/favorites" => "customers#favorites", as: "favorites"
 
     resources :shops, except: [:destroy] do
       resources :comments, only: [:create, :destroy]
-      resource :favorites, only: [:create, :destroy]
-      resources :reviews, only: [:create, :destroy]
+      resource :favorites, only: [:create, :destroy, :index]
+      resources :reviews, only: [:create, :destroy, :index]
       collection do
         get "search"
       end
@@ -43,6 +43,11 @@ Rails.application.routes.draw do
     resources :customers, except: [:new, :create, :destroy]
     resources :shops, except: [:new, :create, :destroy] do
       resources :comments, only: [:create, :destroy]
+      resource :favorites, only: [:index]
+      resources :reviews, only: [:destroy, :index]
+      collection do
+        get "search"
+      end
     end
     resources :genres, only: [:index, :create, :edit, :update]
   end

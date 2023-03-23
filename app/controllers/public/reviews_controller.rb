@@ -17,6 +17,11 @@ class Public::ReviewsController < ApplicationController
     redirect_to shop_path(params[:shop_id])
   end
 
+  def index
+    @shop = Shop.all
+    @reviews = Review.where(shop_id: params[:shop_id])
+  end
+
   private
 
   def review_params
