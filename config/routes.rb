@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     root to: "homes#top"
     resources :customers, except: [:new, :create, :destroy]
     resources :shops, except: [:new, :create, :destroy] do
-      resources :comments, only: [:create, :destroy]
+      resources :comments, only: [:destroy]
       resource :favorites, only: [:index]
       resources :reviews, only: [:destroy, :index]
       collection do

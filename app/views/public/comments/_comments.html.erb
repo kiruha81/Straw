@@ -1,13 +1,13 @@
-<div class="container">
-  <div class="col-12 m-5">
+<div class="container col-11">
+  <div class="col-11 ml-5 my-5">
     <h4><%= "#{shop.comments.count} 件のコメント" %></h4>
     <% shop.comments.each do |comment| %><hr>
     <table class="table table-borderless">
       <thead>
       <tr>
         <th>
-          <%= comment.title %> 
-          <% if comment.customer == current_customer %>
+          <%= comment.title %>
+          <% if comment.customer.id == current_customer.id %>
             <%= link_to '削除', shop_comment_path(shop, comment), method: :delete, data: { confirm: '本当に消します？' }, class: "btn btn-sm btn-danger" %>
           <% end %>
         </th>
@@ -23,7 +23,8 @@
           (<%= review_count %>)
         </td>
         <tr>
-          <td><%= comment.comment %></td>
+          <td><div class="comment-text word-break"><div class="normal"><%= simple_format(comment.comment) %></div></div></td>
+
         </tr>
         <tr>
           <td><small><%= comment.created_at.strftime('%Y/%m/%d(%a) %R') %></small></td></tr>

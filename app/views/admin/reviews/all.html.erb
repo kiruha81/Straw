@@ -5,7 +5,8 @@
 
       <%= link_to review.customer.name, customer_path(review.customer.id), class: "text-dark" %>
       <% review_count = Review.find_by(customer_id: review.customer.id, shop_id: review.shop.id)&.star || 0 %>
-      <div id="review_customer_<%= review.id %>" data-score="<%= review_count %>"></div><%= link_to '評価を削除', admin_shop_review_path(review.shop, review), method: :delete, data: { confirm: '評価削除しますか？' }, class: "btn btn-sm btn-secondary" %><hr>
+      <div id="review_customer_<%= review.id %>" data-score="<%= review_count %>"></div>
+      <%= link_to '評価を削除', admin_shop_review_path(review.shop, review), method: :delete, data: { confirm: '評価削除しますか？' }, class: "btn btn-sm btn-secondary" %><hr>
       <script>
         $(document).on('DOMContentLoaded', function(event) {
           $('#review_customer_<%= review.id %>').raty({

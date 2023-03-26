@@ -73,6 +73,18 @@ class Public::ShopsController < ApplicationController
     @reviews = Review.all
     @favorites = Favorite.all
     @comments = Comment.all
+
+    @items = []
+
+    @view_count_ranks.each.with_index(1) do |rank, i|
+      @ave = Review.where(shop_id: rank.id).average(:star)
+      if @ave.nil?
+      else
+        @items << [rank.id, @ave]
+      end
+    end
+    @items = @items.sort {|a,b| a[1] <=> b[1]}.reverse
+
     #@genres = Genre.all
     #@prefectures = Map.prefectures
     #if params[:genre_id].present?

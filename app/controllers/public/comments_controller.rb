@@ -14,7 +14,7 @@ class Public::CommentsController < ApplicationController
   def destroy
     @shop = Shop.find(params[:shop_id])
     @comment = Comment.new
-    Comment.find_by(params[:id], shop_id: params[:shop_id]).destroy
+    current_customer.comments.find(params[:id]).destroy!
     redirect_to shop_path(@shop)
   end
 

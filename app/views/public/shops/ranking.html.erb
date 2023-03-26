@@ -13,10 +13,24 @@
       <%# end %>
   <!--  </div>-->
   <div class="col-12">
+          <div class="col-12">
+        <span class="h4">トップレビュー</span><br>
+        <table class="table table-bordered">
+        <% @items.each.with_index(1) do |rank, i| %>
+          <%# binding.pry %>
+          <% shop = Shop.find(rank[0]) %>
+          <tr>
+            <td><%= i %>位 ( <%= image_tag("star-on.png") %> <%= rank[1] %> )</td>
+            <td><%= link_to shop.shop_name, shop_path(shop.id), class: "text-dark" %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
     <div class="row">
       <div class="col-6">
         <span class="h4">閲覧数</span> <span class="h5">( <i class="far fa-eye"></i> <%= @view_counts.count %> )</span><br>
         <table class="table table-bordered">
+
         <% @view_count_ranks.each.with_index(1) do |shop, i| %>
           <tr>
             <td><%= i %>位 ( <i class="far fa-eye"></i> <%= shop.view_counts.count %> )</td>

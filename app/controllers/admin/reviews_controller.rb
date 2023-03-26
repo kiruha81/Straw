@@ -12,9 +12,9 @@ class Admin::ReviewsController < ApplicationController
   end
 
   def destroy
-    review = Review.find_by(customer_id: params[:customer_id], shop_id: params[:shop_id])
+    review = Review.find(params[:id])
     review.destroy
-    redirect_to admin_shop_reviews_path
+    redirect_to admin_reviews_all_path
   end
 
   def index
