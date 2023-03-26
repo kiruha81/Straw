@@ -1,4 +1,6 @@
 class Public::ReviewsController < ApplicationController
+  # 会員ログインチェック
+  before_action :authenticate_customer!
 
   def create
     @review = Review.new(review_params)
@@ -20,6 +22,7 @@ class Public::ReviewsController < ApplicationController
   def index
     @shop = Shop.all
     @reviews = Review.where(shop_id: params[:shop_id])
+    @review_shop = Shop.find(params[:shop_id])
   end
 
   private

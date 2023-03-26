@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="col-12 ml-5 my-5">
+<div class="container col-11">
+  <div class="col-12 mt-5 mb-5">
     <p>
     <h2>店情報</h2>
     </p>
@@ -13,7 +13,7 @@
         <th>写真</th>
         <td>
           <% @shop.shop_images.each do |shop_image| %>
-          <%= image_tag shop_image, size:"480x300" %>
+          <%= image_tag shop_image, size:"480x300", class: "mt-1" %>
           <% end %>
         </td>
       </tr>
@@ -38,8 +38,6 @@
           <%# 評価済みの場合は、再評価できないようにする %>
           <% if @review_flg.blank? %>
             <%# 自分自身の投稿には評価できないようにする %>
-            <% if @shop.customer_id == current_customer.id %>
-            <% else %>
               <small>評価しましょう</small>
               <%= form_with model: @review, url: shop_reviews_path(@shop) do |review| %>
                 <div id="review"></div><br>
@@ -57,7 +55,6 @@
                   half: true,
                 });
               </script>
-            <% end %>
           <% else %>
             <small>評価済みです。</small><br>
             <%= link_to '評価を削除', shop_review_path(@shop), method: :delete, data: { confirm: '評価削除しますか？' }, class: "btn btn-sm btn-secondary" %>
@@ -77,6 +74,10 @@
         <td><div id='map'></div></td>
       </tr>
       <tr>
+        <th>閲覧数</th>
+        <td><i class="far fa-eye"></i> <%= @shop.view_counts.count %></td>
+      </tr>
+      <tr>
         <th>いいね</th>
         <td id="favorite_buttons_<%= @shop.id %>"><%= render "public/favorites/fav", shop: @shop, favorite: @favorite %></td>
       </tr>
@@ -92,8 +93,10 @@
     <% end %>
   </div>
 </div>
-<div id="comment_area_<%= @shop.id %>"><%= render 'public/comments/comments', shop: @shop, comment: @comment %></div>
-<div id="comment_area_<%= @shop.id %>"><%= render 'public/comments/comment_form', shop: @shop, comment: @comment %></div>
+<div id="shop_comment">
+  <div id="comment_area"><%= render "public/comments/comments", shop: @shop %></div>
+  <div id="comment"><%= render "public/comments/comment_form", shop: @shop, comment: @comment %></div>
+</div>
 
 <script>
   $('#review_avg').empty(); // Turbolinksで星が増殖する現象を解消
@@ -112,8 +115,9 @@
 
 <style>
   #map {
-    height: 600px;
-    width: 980px;
+    height: 1000px;
+    width: 1380px;
+    margin-left: 20px;
   }
 </style>
 

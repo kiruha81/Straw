@@ -34,8 +34,7 @@ Rails.application.routes.draw do
         get "search"
       end
     end
-    resources :maps
-
+    get "/ranking/" => "shops#ranking", as: "ranking"
   end
 
   namespace :admin do
@@ -50,6 +49,8 @@ Rails.application.routes.draw do
       end
     end
     resources :genres, only: [:index, :create, :edit, :update]
+    get "/ranking/" => "shops#ranking", as: "ranking"
+    get "/reviews/all/" => "reviews#all", as: "reviews_all"
   end
 
 end

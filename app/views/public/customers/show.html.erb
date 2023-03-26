@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="col-12 ml-5 my-5">
+<div class="container col-11">
+  <div class="col-12 mt-5 mb-5">
     <%= flash[:notice] %>
     <p>
     <% if @customer.id == current_customer.id %>
@@ -53,6 +53,8 @@
         投稿はありません
       <% elsif @shops.where(customer_id: params[:id]).blank? && @customer.id == current_customer.id && @customer.name != "ゲストさん" %>
         まだ投稿していません。<%= link_to "お店を投稿", new_shop_path %>してみましょう！
+      <% elsif @customer.name == "ゲストさん" %>
+        投稿できません。
       <% else %>
         <% @shops.each do |shop| %>
           <%= link_to shop.title, shop_path(shop), class: "text-dark" %>

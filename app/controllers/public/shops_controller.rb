@@ -1,4 +1,6 @@
 class Public::ShopsController < ApplicationController
+  # 会員ログインチェック
+  before_action :authenticate_customer!
   before_action :ensure_guest_customer, only: [:new, :create, :edit]
 
 
@@ -30,6 +32,9 @@ class Public::ShopsController < ApplicationController
     @review_avg = Review.where(shop_id: params[:id]).average(:star)
     @review_flg = Review.find_by(customer_id: current_customer.id, shop_id: params[:id])
     @customer = Review.find_by(customer_id: params[:id])
+    unless ViewCount.find_by(customer_id: current_customer.id, shop_id: @shop.id)
+      current_customer.view_counts.create(shop_id: @shop.id)
+    end
   end
 
   def new
@@ -58,11 +63,39 @@ class Public::ShopsController < ApplicationController
     redirect_to shop_path(@shop.id)
   end
 
+  def ranking
+    @view_count_ranks = Shop.find(ViewCount.group(:shop_id).order('count(shop_id) desc').limit(3).pluck(:shop_id))
+    @review_avg = Review.where(shop_id: params[:id]).average(:star)
+    @review_ranks = Shop.find(Review.group(:shop_id).order('count(shop_id) desc').limit(3).pluck(:shop_id))
+    @favorite_ranks = Shop.find(Favorite.group(:shop_id).order('count(shop_id) desc').limit(3).pluck(:shop_id))
+    @comment_ranks = Shop.find(Comment.group(:shop_id).order('count(shop_id) desc').limit(3).pluck(:shop_id))
+    @view_counts = ViewCount.all
+    @reviews = Review.all
+    @favorites = Favorite.all
+    @comments = Comment.all
+    #@genres = Genre.all
+    #@prefectures = Map.prefectures
+    #if params[:genre_id].present?
+    #  @genre = Genre.find(params[:genre_id])
+    #  @view_count_ranks = @genre.shops.page(params[:page]).per(6)
+    #  @favorite_ranks = @genre.shops.page(params[:page]).per(6)
+    #  @comment_ranks = @genre.shops.page(params[:page]).per(6)
+    #elsif params[:prefecture_id].present?
+    #  @prefecture = Map.where(prefecture: params[:prefecture_id])&.pluck(:shop_id)
+    #  @view_count_ranks = Shop.where(id: @prefecture).page(params[:page]).per(6)
+    #  @favorite_ranks = Shop.where(id: @prefecture).page(params[:page]).per(6)
+    #  @comment_ranks = Shop.where(id: @prefecture).page(params[:page]).per(6)
+    #else
+    #end
+  end
+
 
 
   private
 
-
+  #def genre_params
+  #  params.require(:genre).permit(:id)
+  #end
 
   def shop_params
     params.require(:shop).permit(:title, :shop_name, :body, :genre_id, :customer_id, :map_id, map_attributes:[:id, :shop_id, :prefecture, :address, :latitude, :longitude], shop_images: [])

@@ -7,6 +7,7 @@ class Shop < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :reviews, dependent: :destroy
+  has_many :view_counts, dependent: :destroy
 
   validates :title, presence: true
   validates :body, presence: true

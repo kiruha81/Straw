@@ -1,4 +1,6 @@
 class Public::MapsController < ApplicationController
+  # 会員ログインチェック
+  before_action :authenticate_customer!
   def index
       @maps = Map.all
       @map = Map.new

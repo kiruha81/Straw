@@ -1,10 +1,25 @@
-<h1>Shops#edit</h1>
-<p>Find me in app/views/shops/edit.html.erb</p>
-<%= form_with model: @shop, url: shop_path, method: :patch, local: true do |f| %>
-  <div>題名：<%= f.text_field :title, size: "38" %></div>
-  <div>店名：<%= f.text_field :shop_name, size: "38" %></div>
-  <!--<div>画像：<%#= f.file_field :shop_images, multiple: true, accept: "image/*" %></div>-->
-  <!--↑編集じゃなくて画像を追加したい！-->
-  <div>説明：<%= f.text_area :body, size: "40x2" %></div>
-  <%= f.submit "店を更新！" %>
-<% end %>
+<div class="container">
+  <div class="col-11 ml-5 my-5">
+    <h2>投稿編集</h2>
+    <small class="form-text text-muted">正しい名称・住所を入力してください</small>
+    <small class="form-text text-muted">
+      検索は<%= link_to "https://www.google.com/maps/", target: :_blank, rel: "noopener noreferrer" do %>
+      こちら
+      <% end %>(Google Map)
+    </small><br>
+
+    <%= bootstrap_form_with model: @shop, url: shop_path, method: :patch, local: true do |f| %>
+      <%= f.text_field :title, autofocus: true, placeholder: "" %>
+      <%= f.text_field :shop_name %>
+      <%= f.text_area :body %>
+      <%= f.collection_select :genre_id, Genre.all, :id, :name, {prompt: "ジャンルを選択"} %>
+      <%= f.file_field :shop_images, multiple: true, accept: "image/*" %>
+      <!--↑編集じゃなくて画像を追加したい！-->
+      <%= f.fields_for :map do |map| %>
+        <%= map.select :prefecture, Map.prefectures.keys.to_a, {prompt: "都道府県を選択"} %>
+        <%= map.text_field :address %>
+      <% end %>
+      <%= f.submit "投稿する" %>
+    <% end %>
+  </div>
+</div>

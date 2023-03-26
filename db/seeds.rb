@@ -75,11 +75,65 @@ Customer.create!(
 )
 
 Customer.create!(
+  name: 'ほげ4',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge4@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげ5',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge5@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげ6',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge6@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげ7',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge7@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげ8',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge8@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげ9',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge9@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
   name: 'ほげほげ',
   gender: 0,
   prefecture: 0,
   is_deleted: false,
-  email: 'hogehoge1@hoge.com',
+  email: 'hogehoge11@hoge.com',
   password: 'hogehoge',
 )
 
@@ -101,6 +155,59 @@ Customer.create!(
   password: 'hogehoge',
 )
 
+Customer.create!(
+  name: 'ほげほげ4',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge44@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげほげ5',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge55@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげほげ6',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge66@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげほげ7',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge77@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげほげ8',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge88@hoge.com',
+  password: 'hogehoge',
+)
+
+Customer.create!(
+  name: 'ほげほげ9',
+  gender: 0,
+  prefecture: 0,
+  is_deleted: false,
+  email: 'hogehoge99@hoge.com',
+  password: 'hogehoge',
+)
 
 #customer = Customer.new(:name => "ほげ", :gender => 0, :prefecture => 0, :email => "hogehoge@hoge.com", :password => "hugahuga", :is_deleted => false)
 #customer.save!

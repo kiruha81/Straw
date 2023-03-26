@@ -1,4 +1,5 @@
 class Public::CustomersController < ApplicationController
+  # 会員ログインチェック
   before_action :authenticate_customer!
   before_action :ensure_guest_customer, only: [:edit]
   def index

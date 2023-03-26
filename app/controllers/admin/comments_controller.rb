@@ -6,4 +6,9 @@ class Admin::CommentsController < ApplicationController
 
   def destroy
   end
+
+  def index
+    @shop = Shop.find(params[:shop_id])
+    @comments = Comment.page(params[:page]).per(6)
+  end
 end

@@ -1,6 +1,28 @@
-<h1>Public::Homes#top</h1>
-<p>Find me in app/views/public/homes/top.html.erb</p>
-<%= flash[:notice] %>
-<%= link_to "ログアウト", destroy_customer_session_path, method: :delete %>
-<%= link_to "ログイン", customer_session_path %>
-<%= link_to 'ゲストログイン（閲覧用）', customers_guest_sign_in_path, method: :post %>
+<div class="container col-12">
+  <div class="col-12 mt-5 mb-5">
+    <center>
+      <div>
+        <%= flash[:notice] %>
+      </div>
+      <%= image_tag('straw_logo.png', size: "300x100") %><br>
+      <p>お店を投稿し、評価をする・見ることができるWebサイトです！</p>
+      <p><%= image_tag("omise_shop.png") %></p>
+      <h2>投稿されたお店</h2>
+    </center><br>
+      <div class="col-12 d-flex justify-content-center">
+        <% @favorite_ranks.each do |shop| %>
+          <% shop.shop_images.each do |shop_image| %>
+            <%= image_tag shop_image, size:"480x300", class:"mr-5" %>
+          <% end %>
+        <% end %>
+        </table>
+      </div><br>
+      <center>ユーザー登録をするとお店の閲覧・投稿・いいねやコメントができます！</center><br>
+      <center><%= link_to "新規登録はこちらから！", new_customer_registration_path, class: "btn btn-lg btn-success" %></center><br>
+      <center>
+        <%= link_to "ログイン", customer_session_path, class: "btn btn-primary" %>
+        <%= link_to 'ゲストログイン', customers_guest_sign_in_path, method: :post, class: "btn btn-secondary" %>
+        <%= link_to "ログアウト", destroy_customer_session_path, method: :delete, class: "btn btn-danger" %>
+      </center>
+  </div>
+</div>

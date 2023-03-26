@@ -1,7 +1,7 @@
 <div class="container my-5">
 <h2><span class="text-danger"><%= @count %> </span>件の店</h2><br>
   <div class="row">
-    <div class="col-1">種類
+    <div class="col-2">種類
       <% @genres.each do |genre| %>
         <div><small><%= link_to genre.name, admin_shops_path(genre_id: genre.id), class: "text-dark" %></small></div>
       <% end %>

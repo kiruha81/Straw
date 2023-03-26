@@ -6,8 +6,12 @@ ja:
         body: 内容
         shop_name: 店名
         genre_id: ジャンル
-        shop_image: お店の画像
+        shop_images: お店の画像
         address: お店の住所
+        genre: ジャンル
+      map:
+        prefecture: 都道府県
+        address: 住所
       genre:
         name: 店の種類
       comment:

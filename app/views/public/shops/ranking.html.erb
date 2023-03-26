@@ -1,0 +1,65 @@
+<div class="container m-5 col-11">
+  <h2>👑お店のランキング❕❕</h2><br>
+<!--ジャンルごとのランキングが実装できない。-->
+  <!--<div class="row">-->
+  <!--  <div class="col-1">種類-->
+    <%# @genres.each do |genre| %>
+      <div><small><%#= link_to genre.name, ranking_path(genre_id: genre.id), class: "text-dark" %></small></div>
+    <%# end %>
+  <!--  </div>-->
+  <!--  <div class="col-1">都道府県-->
+      <%# @prefectures.each do |pre| %>
+        <div><small><%#= link_to pre[0], ranking_path(prefecture_id: pre[1]), class: "text-dark" %></small></div>
+      <%# end %>
+  <!--  </div>-->
+  <div class="col-12">
+    <div class="row">
+      <div class="col-6">
+        <span class="h4">閲覧数</span> <span class="h5">( <i class="far fa-eye"></i> <%= @view_counts.count %> )</span><br>
+        <table class="table table-bordered">
+        <% @view_count_ranks.each.with_index(1) do |shop, i| %>
+          <tr>
+            <td><%= i %>位 ( <i class="far fa-eye"></i> <%= shop.view_counts.count %> )</td>
+            <td><%= link_to shop.shop_name, shop_path(shop.id), class: "text-dark" %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+      <div class="col-6">
+        <!--レビューがいい順にしたい-->
+        <span class="h4">レビュー数</span> <span class="h5">( <%= image_tag("star-on.png") %> <%= @reviews.count %> )</span><br>
+        <table class="table table-bordered">
+        <% @review_ranks.each.with_index(1) do |shop, i| %>
+          <tr>
+            <td><%= i %>位 ( <%= image_tag("star-on.png") %> <%= shop.reviews.count %> )</td>
+            <td><%= link_to shop.shop_name, shop_path(shop.id), class: "text-dark" %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+      <div class="col-6">
+        <span class="h4">いいね</span> <span class="h5">( <i class="fas fa-heart text-danger"></i> <%= @favorites.count %> )</span><br>
+        <table class="table table-bordered">
+        <% @favorite_ranks.each.with_index(1) do |shop, i| %>
+          <tr>
+            <td><%= i %>位 ( <i class="fas fa-heart text-danger"></i> <%= shop.favorites.count %> )</td>
+            <td><%= link_to shop.shop_name, shop_path(shop.id), class: "text-dark" %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+      <div class="col-6">
+        <span class="h4">コメント</span> <span class="h5">( 💬 <%= @comments.count %> )</span><br>
+        <table class="table table-bordered">
+        <% @comment_ranks.each.with_index(1) do |shop, i| %>
+          <tr>
+            <td><%= i %>位 ( 💬 <%= shop.comments.count %> )</td>
+            <td><%= link_to shop.shop_name, shop_path(shop.id), class: "text-dark" %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+    </div>
+  <!--</div>-->
+  </div>
+</div>

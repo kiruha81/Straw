@@ -1,0 +1,32 @@
+<div class="container col-11">
+  <div class="col-8 ml-5 my-5">
+    <h4><%= "#{@comments.count} 件のコメント" %></h4>
+    <% @comments.each do |comment| %>
+    <table class="table table-borderless">
+      <thead>
+      <tr>
+        <th><%= comment.title %> <%= link_to '削除', admin_shop_comment_path(comment), method: :delete, data: { confirm: '本当に消します？' }, class: "btn btn-sm btn-danger", remote: true %></th>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <%= link_to(shop.customer) do %>
+            <%= image_tag comment.customer.get_profile_image(50, 50) %><br>
+            <div class='text-dark'><%= comment.customer.name %></div>
+          <% end %>
+        </td>
+        <td>
+          <% review_count = Review.find_by(customer_id: comment.customer.id, shop_id: shop.id)&.star || 0 %>
+          <div id="review_customer_<%= comment.id %>" data-score="<%= review_count %>"></div>
+          (<%= review_count %>)
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+
+    </table>
+    <% end %>
+    <%= paginate @comments %>
+  </div>
+</div>

@@ -1,4 +1,79 @@
-<h1>Admin::Homes#top</h1>
-<p>Find me in app/views/admin/homes/top.html.erb</p>
-<%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
-<%= link_to "ジャンル一覧", admin_genres_path %>
+<div class="container col-11">
+  <div class="col-12 mt-5">
+    <%= flash[:notice] %>
+    <h2>新着一覧(10件)</h2><br>
+    <div class="row">
+      <div class="col-6">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>店</th>
+              <th>時間</th>
+            </tr>
+          </thead>
+          <% @shops.last(10).reverse.each do |shop| %>
+          <tr>
+            <td><%= link_to shop.shop_name, admin_shop_path(shop), class: "text-dark" %></td>
+            <td><%= shop.created_at.strftime('%Y/%m/%d(%a) %R') %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+      <div class="col-6">
+        <!--レビューがいい順にしたい-->
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>評価</th>
+              <th>店</th>
+              <th>時間</th>
+            </tr>
+          </thead>
+        <% @reviews.last(10).reverse.each do |review| %>
+          <tr>
+            <td><%= link_to review.star, admin_shop_reviews_path(review.shop), class: "text-dark" %></td>
+            <td><%= link_to review.shop.shop_name, admin_shop_path(review.shop), class: "text-dark" %></td>
+            <td><%= review.created_at.strftime('%Y/%m/%d(%a) %R') %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+      <div class="col-6">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>コメント</th>
+              <th>店</th>
+              <th>時間</th>
+            </tr>
+          </thead>
+        <% @comments.last(10).reverse.each do |comment| %>
+          <tr>
+            <td><%= comment.comment %></td>
+            <td><%=  link_to comment.shop.shop_name, admin_shop_path(comment.shop), class: "text-dark" %></td>
+            <td><%= comment.created_at.strftime('%Y/%m/%d(%a) %R') %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+      <div class="col-6">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ユーザー名</th>
+              <th>時間</th>
+            </tr>
+          </thead>
+        <% @customers.last(10).reverse.each do |customer| %>
+          <tr>
+            <td><%= link_to customer.name, admin_customer_path(customer), class: "text-dark" %></td>
+            <td><%= customer.created_at.strftime('%Y/%m/%d(%a) %R') %></td>
+          </tr>
+        <% end %>
+        </table>
+      </div>
+    </div>
+    <%= link_to "ログアウト", destroy_admin_session_path, method: :delete %>
+    <%= link_to "ジャンル一覧", admin_genres_path %>
+  </div>
+</div>

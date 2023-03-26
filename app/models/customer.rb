@@ -14,6 +14,7 @@ class Customer < ApplicationRecord
   has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
   has_many :following_customer, through: :follower, source: :followed
   has_many :reviews, dependent: :destroy
+  has_many :view_counts, dependent: :destroy
 
   enum gender: {非公開:0, 男性:1, 女性:2}
 

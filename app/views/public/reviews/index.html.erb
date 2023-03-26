@@ -1,8 +1,8 @@
-<div class="container">
-  <div class="col-12 ml-5 my-5">
-    <h2><%#= @review.shop_name %> の評価一覧</h2>
+<div class="container col-11">
+  <div class="col-12 mt-5 mb-5">
+    <h2><%= @review_shop.shop_name %> の評価一覧</h2><hr>
     <% @reviews.each do |review| %>
-    
+
       <%= link_to review.customer.name, customer_path(review.customer.id), class: "text-dark" %>
       <% review_count = Review.find_by(customer_id: review.customer.id, shop_id: review.shop.id)&.star || 0 %>
       <div id="review_customer_<%= review.id %>" data-score="<%= review_count %>"></div><hr>

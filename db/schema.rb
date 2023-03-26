@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_07_021222) do
+ActiveRecord::Schema.define(version: 2023_03_23_043739) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -147,6 +147,15 @@ ActiveRecord::Schema.define(version: 2023_03_07_021222) do
     t.index ["genre_id"], name: "index_shops_on_genre_id"
   end
 
+  create_table "view_counts", force: :cascade do |t|
+    t.integer "shop_id", null: false
+    t.integer "customer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_id"], name: "index_view_counts_on_customer_id"
+    t.index ["shop_id"], name: "index_view_counts_on_shop_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "comments", "customers"
@@ -160,4 +169,6 @@ ActiveRecord::Schema.define(version: 2023_03_07_021222) do
   add_foreign_key "reviews", "shops"
   add_foreign_key "shops", "customers"
   add_foreign_key "shops", "genres"
+  add_foreign_key "view_counts", "customers"
+  add_foreign_key "view_counts", "shops"
 end

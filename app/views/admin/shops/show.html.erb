@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="col-12 ml-5 my-5">
+<div class="container col-11">
+  <div class="col-12 mt-5 mb-5">
     <p>
     <h2>店情報</h2>
     </p>
@@ -29,7 +29,7 @@
         <td>
           <div id="review_avg" data-score="<%= @review_avg %>"></div>(
           <% if @shop.reviews.present? %>
-          <small><%= link_to @shop.reviews.count, shop_reviews_path(@shop.id) %>
+          <small><%= link_to @shop.reviews.count, admin_shop_reviews_path(@shop.id) %>
           <% else %>
           <small><%= @shop.reviews.count %>
           <% end %>
@@ -85,8 +85,9 @@
 
 <style>
   #map {
-    height: 600px;
-    width: 980px;
+    height: 1000px;
+    width: 1380px;
+    margin-left: 20px;
   }
 </style>
 

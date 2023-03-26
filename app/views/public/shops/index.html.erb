@@ -2,22 +2,22 @@
   <%= flash[:notice] %>
   <h2><span class="text-danger"><%= @count %> </span>件のお店が投稿されています❕❕</h2><br>
   <div class="row">
-    <div class="col-1">種類
-      <% @genres.each do |genre| %>
-        <div><small><%= link_to genre.name, shops_path(genre_id: genre.id), class: "text-dark" %></small></div>
-      <% end %>
+    <div class="col-2">種類
+    <% @genres.each do |genre| %>
+      <div><small><%= link_to genre.name, shops_path(genre_id: genre.id), class: "text-dark" %></small></div>
+    <% end %>
     </div>
     <div class="col-1">都道府県
       <% @prefectures.each do |pre| %>
         <div><small><%= link_to pre[0], shops_path(prefecture_id: pre[1]), class: "text-dark" %></small></div>
       <% end %>
     </div>
-    <div class="col-8">
+    <div class="col-9">
       <div class="row">
         <div class="col-12">
           <input id="address" type="textbox" placeholder="地図検索">
           <input type="button" value="Encode" onclick="codeAddress()">
-          <div id='map'></div><br>
+          <div id="map"></div><br>
 
           <style>
               #map {
