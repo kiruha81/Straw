@@ -102,13 +102,18 @@
           </script>
 
           <h3>場所一覧 (<%= @count %> 件)</h3>
-          <% @shops.each do |shop| %>
-            <p><%= link_to shop_path(shop.id) do %><p>
-              <div class="text-dark"><%= shop.shop_name %></div>
-            <% end %>
-            <div class=""><small class=""><%= shop.genre.name %></small></div>
-            <p><%= shop.map.address %></p>
+          <% if @shops.blank? %>
+            <hr>お店はありません
+          <% else %>
             <hr>
+            <% @shops.each do |shop| %>
+              <p><%= link_to shop_path(shop.id) do %><p>
+                <div class="text-dark"><%= shop.shop_name %></div>
+              <% end %>
+              <div class=""><small class=""><%= shop.genre.name %></small></div>
+              <p><%= shop.map.address %></p>
+              <hr>
+            <% end %>
           <% end %>
         </div>
       </div>

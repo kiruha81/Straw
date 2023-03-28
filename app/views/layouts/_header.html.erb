@@ -13,11 +13,12 @@
               <%= f.search_field :shop_name_or_title_or_body_cont, placeholder: "検索", required: true %>
               <%= f.submit '🔍', class: "btn-sm btn-outline-p" %>
             <% end %>
-          <% else %>
+          <% elsif admin_signed_in? %>
             <%= search_form_for q, url: search_admin_shops_path, class: "form-inline" do |f| %>
               <%= f.search_field :shop_name_or_title_or_body_cont, placeholder: "検索", required: true %>
               <%= f.submit '🔍', class: "btn-sm btn-outline-p" %>
             <% end %>
+          <% else %>
           <% end %>
         </center>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">

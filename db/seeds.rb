@@ -208,9 +208,3 @@ Customer.create!(
   email: 'hogehoge99@hoge.com',
   password: 'hogehoge',
 )
-
-#customer = Customer.new(:name => "ほげ", :gender => 0, :prefecture => 0, :email => "hogehoge@hoge.com", :password => "hugahuga", :is_deleted => false)
-#customer.save!
-#
-#customer2 = Customer.new(:name => "ほげ2", :gender => 0, :prefecture => 0, :email => "hogehoge2@hoge.com", :password => "hugahuga", :is_deleted => false)
-#customer2.save!
