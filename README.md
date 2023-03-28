@@ -49,7 +49,7 @@ Store Locationを略してストローです。お店の情報を吸収できる
 
 ## 設計書
 ### ER図
-![straw_ER drawio](https://user-images.githubusercontent.com/121922228/228127217-90266302-f71a-4c66-ab76-6e45a842a8e6.png)
+![straw_ER drawio ](https://user-images.githubusercontent.com/121922228/228138379-acd5e2d3-ab35-45c4-ad0e-8addfbead5bf.jpg)
 
 ## 開発環境
 - OS：Linux(CentOS)
