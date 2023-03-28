@@ -27,7 +27,7 @@ class Customer < ApplicationRecord
   }
 
   validates :name, length: { minimum: 2, maximum: 20 }, uniqueness: true
-  validates :introduction, length: { maximum: 50 }
+  validates :introduction, length: { maximum: 200 }
   validates :gender, presence: true
   validates :prefecture, presence: true
   #validates :is_deleted, inclusion: { in: [true, false] }
