@@ -59,7 +59,7 @@
               // 投稿の詳細ページへのリンクも
               var infowindow = new google.maps.InfoWindow({
               position: {lat: <%= map.map.latitude %>, lng: <%= map.map.longitude %>},
-              content: "<a href='<%= admin_shop_path(map.id) %>' target='_blank'><%= map.shop_name %><br><%= map.map.address %></a>"
+              content: "<a href='<%= admin_shop_path(map.id) %>' target='_blank'><%= map.shop_name %><br><%= map.map.prefecture %><%= map.map.address %></a>"
               });
 
               // クリックしたときに情報ウィンドウを表示
@@ -109,7 +109,7 @@
           <!--<div class="average-review-rating" data-score=<%#= t.reviews.average(:star) %>></div>-->
           <!--<%#=@all_rating %>：<%#= t.reviews.average(:star).to_f.round(1) %>-->
           <!--</div>-->
-          <p><%= shop.map.address %></p>
+          <p><%= shop.map.prefecture %><%= shop.map.address %></p>
           <hr>
         <% end %>
         </div>

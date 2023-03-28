@@ -58,7 +58,7 @@
                 // 投稿の詳細ページへのリンクも
                 var infowindow = new google.maps.InfoWindow({
                 position: {lat: <%= map.map.latitude %>, lng: <%= map.map.longitude %>},
-                content: "<a href='<%= shop_path(map.id) %>' target='_blank'><%= map.shop_name %><br><%= map.map.address %></a>"
+                content: "<a href='<%= shop_path(map.id) %>' target='_blank'><%= map.shop_name %><br><%= map.map.prefecture %><%= map.map.address %></a>"
                 });
 
                 // クリックしたときに情報ウィンドウを表示
@@ -87,7 +87,7 @@
                 <div class="text-dark"><%= shop.shop_name %></div>
               <% end %>
               <div class=""><small class=""><%= shop.genre.name %></small></div>
-              <p><%= shop.map.address %></p>
+              <p><%= shop.map.prefecture %><%= shop.map.address %></p>
               <hr>
             <% end %>
           <% end %>
