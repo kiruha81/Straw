@@ -67,6 +67,7 @@ class Public::ShopsController < ApplicationController
     @shop.score = Language.get_data(shop_params[:body])
     if @shop.update(shop_params)
       tags = Vision.get_image_data(@shop.shop_main_image)
+      @shop.tags.where(shop_id: @shop.id).destroy_all
       tags.each do |tag|
         @shop.tags.create(name: tag)
       end
