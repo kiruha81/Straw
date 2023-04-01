@@ -1,13 +1,16 @@
 class Shop < ApplicationRecord
+  has_one_attached :shop_main_image
   has_many_attached :shop_images
   belongs_to :genre
   belongs_to :customer
   has_one :map
+  # mapを関連した子モデルとして一緒に保存
   accepts_nested_attributes_for :map
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :view_counts, dependent: :destroy
+  has_many :tags, dependent: :destroy
 
   validates :title, presence: true
   validates :body, presence: true

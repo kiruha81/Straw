@@ -45,7 +45,12 @@ class Public::ShopsController < ApplicationController
   def create
     @shop = Shop.new(shop_params)
     @shop.customer_id = current_customer.id
+    @shop.score = Language.get_data(shop_params[:body])
     if @shop.save
+      tags = Vision.get_image_data(@shop.shop_main_image)
+      tags.each do |tag|
+        @shop.tags.create(name: tag)
+      end
       redirect_to shop_path(@shop.id)
     else
       render :new
@@ -59,8 +64,16 @@ class Public::ShopsController < ApplicationController
   def update
     @shop = Shop.find(params[:id])
     @shop.customer_id = current_customer.id
-    @shop.update(shop_params)
-    redirect_to shop_path(@shop.id)
+    @shop.score = Language.get_data(shop_params[:body])
+    if @shop.update(shop_params)
+      tags = Vision.get_image_data(@shop.shop_main_image)
+      tags.each do |tag|
+        @shop.tags.create(name: tag)
+      end
+        redirect_to shop_path(@shop.id)
+    else
+      render :edit
+    end
   end
 
   def ranking
@@ -110,7 +123,7 @@ class Public::ShopsController < ApplicationController
   #end
 
   def shop_params
-    params.require(:shop).permit(:title, :shop_name, :body, :genre_id, :customer_id, :map_id, map_attributes:[:id, :shop_id, :prefecture, :address, :latitude, :longitude], shop_images: [])
+    params.require(:shop).permit(:title, :shop_name, :shop_main_image, :body, :score, :genre_id, :customer_id, :map_id, map_attributes:[:id, :shop_id, :prefecture, :address, :latitude, :longitude], shop_images: [])
   end
 
   def ensure_guest_customer

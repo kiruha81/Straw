@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_23_043739) do
+ActiveRecord::Schema.define(version: 2023_04_01_080605) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -139,7 +139,15 @@ ActiveRecord::Schema.define(version: 2023_03_23_043739) do
     t.boolean "is_hidden", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "score", precision: 5, scale: 3
     t.index ["customer_id"], name: "index_shops_on_customer_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.integer "shop_id"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "view_counts", force: :cascade do |t|

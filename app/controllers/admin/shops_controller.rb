@@ -36,10 +36,11 @@ class Admin::ShopsController < ApplicationController
 
   def update
     @shop = Shop.find(params[:id])
+    @shop.score = Language.get_data(shop_params[:body])
     @shop.update(shop_params)
     redirect_to admin_shop_path(@shop.id)
   end
-  
+
   def ranking
     @view_count_ranks = Shop.find(ViewCount.group(:shop_id).order('count(shop_id) desc').limit(3).pluck(:shop_id))
     @review_ranks = Shop.find(Review.group(:shop_id).order('count(shop_id) desc').limit(3).pluck(:shop_id))

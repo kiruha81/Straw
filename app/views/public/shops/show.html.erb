@@ -12,11 +12,25 @@
       <tr>
         <th>写真</th>
         <td>
+          <% if @shop.shop_main_image.attached? %>
+            <div class="ml-5 mb-2"><%= image_tag @shop.shop_main_image, size: "800x500" %></div>
+          <% end %>
+          <div class="ml-5 mt-4 mb-2"><span><small>タグ自動取得：</small></span><% @shop.tags.each do |tag| %>
+            <span class="rounded p-2 text-light bg-primary"><%= tag.name %></span>
+          <% end %></div>
+        </td>
+      </tr>
+      <% if @shop.shop_images.blank? %>
+      <% else %>
+      <tr>
+        <th></th>
+        <td>
           <% @shop.shop_images.each do |shop_image| %>
           <%= image_tag shop_image, size:"480x300", class: "mt-1" %>
           <% end %>
         </td>
       </tr>
+      <% end %>
       <tr>
         <th>店名</th>
         <td><%= @shop.shop_name %></td>
@@ -167,7 +181,7 @@
 </script>
 
 <script
-    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_MAP_API_KEY'] %>&callback=initMap"
+    src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap"
     async defer>
 </script>
 <% else %>
