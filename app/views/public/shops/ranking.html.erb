@@ -16,7 +16,7 @@
           <div class="col-12">
         <span class="h4">トップレビュー</span><br>
         <table class="table table-bordered">
-        <% @items.each.with_index(1) do |rank, i| %>
+        <% @shops.each.with_index(1) do |rank, i| %>
           <%# binding.pry %>
           <% shop = Shop.find(rank[0]) %>
           <tr>

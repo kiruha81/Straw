@@ -1,6 +1,7 @@
 class Public::ShopsController < ApplicationController
   # 会員ログインチェック
   before_action :authenticate_customer!
+  # ゲストの機能を制限
   before_action :ensure_guest_customer, only: [:new, :create, :edit]
 
 
@@ -8,11 +9,11 @@ class Public::ShopsController < ApplicationController
     @shops = Shop.all
     @genres = Genre.all
     @prefectures = Map.prefectures
-    if params[:genre_id].present?
+    if params[:genre_id].present? # genre_idの取得チェック
       @genre = Genre.find(params[:genre_id])
       @shops = @genre.shops.page(params[:page]).per(6)
       @count = @genre.shops.count
-    elsif params[:prefecture_id].present?
+    elsif params[:prefecture_id].present? # prefectureをprefecture_idとして取得チェック
       @prefecture = Map.where(prefecture: params[:prefecture_id])&.pluck(:shop_id)
       @shops = Shop.where(id: @prefecture).page(params[:page]).per(6)
       @count = @shops.count
@@ -29,9 +30,10 @@ class Public::ShopsController < ApplicationController
     @review = Review.new
     @reviews = @shop.reviews
     @count = @reviews.count
-    @review_avg = Review.where(shop_id: params[:id]).average(:star)
-    @review_flg = Review.find_by(customer_id: current_customer.id, shop_id: params[:id])
+    @review_avg = Review.where(shop_id: params[:id]).average(:star) # shop_idのレビューを全取得し、平均値にする
+    @review_flg = Review.find_by(customer_id: current_customer.id, shop_id: params[:id]) # レビューしたかどうかチェック
     @customer = Review.find_by(customer_id: params[:id])
+    # ビューカウントがなければcreate
     unless ViewCount.find_by(customer_id: current_customer.id, shop_id: @shop.id)
       current_customer.view_counts.create(shop_id: @shop.id)
     end
@@ -39,17 +41,17 @@ class Public::ShopsController < ApplicationController
 
   def new
     @shop = Shop.new
-    @shop.build_map
+    @shop.build_map # shopにmapを作成し保存できるように
   end
 
   def create
     @shop = Shop.new(shop_params)
     @shop.customer_id = current_customer.id
-    @shop.score = Language.get_data(shop_params[:body])
+    @shop.score = Language.get_data(shop_params[:body]) # Natural Language APIの取得
     if @shop.save
-      tags = Vision.get_image_data(@shop.shop_main_image)
+      tags = translation(Vision.get_image_data(@shop.shop_main_image)) # タグを取得し日本語に翻訳
       tags.each do |tag|
-        @shop.tags.create(name: tag)
+        @shop.tags.create(name: tag) # 取得したタグを作成
       end
       redirect_to shop_path(@shop.id)
     else
@@ -64,12 +66,12 @@ class Public::ShopsController < ApplicationController
   def update
     @shop = Shop.find(params[:id])
     @shop.customer_id = current_customer.id
-    @shop.score = Language.get_data(shop_params[:body])
+    @shop.score = Language.get_data(shop_params[:body]) # Natural Language APIの取得
     if @shop.update(shop_params)
-      tags = Vision.get_image_data(@shop.shop_main_image)
-      @shop.tags.where(shop_id: @shop.id).destroy_all
+      tags = translation(Vision.get_image_data(@shop.shop_main_image)) # タグを取得し日本語に翻訳
+      @shop.tags.where(shop_id: @shop.id).destroy_all # 変更する度にタグが増殖されるのを防ぐ
       tags.each do |tag|
-        @shop.tags.create(name: tag)
+        @shop.tags.create(name: tag) # 取得したタグを作成
       end
         redirect_to shop_path(@shop.id)
     else
@@ -88,16 +90,16 @@ class Public::ShopsController < ApplicationController
     @favorites = Favorite.all
     @comments = Comment.all
 
-    @items = []
+    @shops = [] # 配列にする
 
     @view_count_ranks.each.with_index(1) do |rank, i|
-      @ave = Review.where(shop_id: rank.id).average(:star)
-      if @ave.nil?
+      @avg = Review.where(shop_id: rank.id).average(:star)
+      if @avg.nil?
       else
-        @items << [rank.id, @ave]
+        @shops << [rank.id, @avg]
       end
     end
-    @items = @items.sort {|a,b| a[1] <=> b[1]}.reverse
+    @shops = @shops.sort {|a,b| a[1] <=> b[1]}.reverse
 
     #@genres = Genre.all
     #@prefectures = Map.prefectures
@@ -122,6 +124,16 @@ class Public::ShopsController < ApplicationController
   #def genre_params
   #  params.require(:genre).permit(:id)
   #end
+  def translation(tags)
+    arr = []
+    tags.each do |tag|
+      t = Google::Cloud::Translate.new version: :v2, project_id: ENV["GOOGLE_API_KEY"]
+      translated_text = t.translate tag, to: "ja"
+      arr.push(translated_text)
+    end
+    arr
+  end
+
 
   def shop_params
     params.require(:shop).permit(:title, :shop_name, :shop_main_image, :body, :score, :genre_id, :customer_id, :map_id, map_attributes:[:id, :shop_id, :prefecture, :address, :latitude, :longitude], shop_images: [])
