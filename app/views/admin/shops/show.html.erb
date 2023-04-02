@@ -12,11 +12,13 @@
         <th>写真</th>
         <td>
           <% if @shop.shop_main_image.attached? %>
-            <div class="ml-5 mb-2"><%= image_tag @shop.shop_main_image, size: "800x500" %></div>
+            <div class="ml-5 mb-2"><%= image_tag @shop.shop_main_image, size: "800x500", class: "img-responsive" %></div>
           <% end %>
-          <div class="ml-5 mt-4 mb-2"><span><small>タグ自動取得：</small></span><% @shop.tags.each do |tag| %>
-            <span class="rounded p-2 text-light bg-primary"><%= tag.name %></span>
-          <% end %></div>
+          <div class="ml-5 mt-4 mb-2"><span><small>タグ自動取得：</small></span>
+            <% @shop.tags.each do |tag| %>
+              <span class="rounded p-2 text-light bg-primary"><%= tag.name %></span>
+            <% end %>
+          </div>
         </td>
       </tr>
       <% if @shop.shop_images.blank? %>
@@ -25,7 +27,7 @@
         <th></th>
         <td>
           <% @shop.shop_images.each do |shop_image| %>
-          <%= image_tag shop_image, size:"480x300", class: "mt-1" %>
+          <%= image_tag shop_image, size:"480x300", class: "mt-1 img-responsive" %>
           <% end %>
         </td>
       </tr>
@@ -63,7 +65,7 @@
       </tr>
       <tr>
         <th>場所</th>
-        <td><div id='map'></div></td>
+        <td><div id='map' class="img-responsive"></div></td>
       </tr>
       <tr>
         <th>閲覧数</th>

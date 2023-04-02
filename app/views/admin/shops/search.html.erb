@@ -1,33 +1,36 @@
 <div class="container">
   <div class="row">
-  <div class="col-10 ml-5 my-5">
-    <h2>検索結果 (<%= @results.count %> 件)</h2>
-    <% @results.each do |shop| %>
-          <table class="table table-bordered">
-        <!--<thead style="background-color: #f0f8ff;">-->
-          <!--<tr>-->
-            <tr><th>題名</th><td><%= link_to shop.title, shop_path(shop), class: "text-dark" %></td></tr>
-            <tr><th>写真</th><td><% shop.shop_images.each do |shop_image| %>
-            <%= image_tag shop_image, size:"400x400" %>
-            <% end %></td></tr>
-            <tr><th>店名</th><td><%= shop.shop_name %></td></tr>
-            <tr><th>住所</th><td><%= shop.map.address %></td></tr>
-            <tr><th>本文</th><td><%= shop.body %></td></tr>
-          <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-
-            <!--<tr>-->
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-              <tr></tr>
-            <!--</tr>-->
-            <% end %>
-        <!--</tbody>-->
-      </table>
+    <div class="col-10 ml-5 my-5">
+      <h2>検索結果 (<%= @results.count %> 件)</h2>
+      <% @results.each do |shop| %>
+        <table class="table table-bordered">
+          <tr>
+            <th>題名</th>
+            <td><%= link_to shop.title, admin_shop_path(shop), class: "text-dark" %></td>
+          </tr>
+          <tr>
+            <th>写真</th>
+            <td>
+              <% if @shop.shop_main_image.attached? %>
+                <div class="ml-5 mb-2"><%= image_tag @shop.shop_main_image, size: "800x500", class: "img-responsive" %></div>
+              <% end %>
+            </td>
+          </tr>
+          <tr>
+            <th>店名</th>
+            <td><%= shop.shop_name %></td>
+          </tr>
+          <tr>
+            <th>住所</th>
+            <td><%= shop.map.address %></td>
+          </tr>
+          <tr>
+            <th>本文</th>
+            <td><%= shop.body %></td>
+          </tr>
+        </table>
+      <% end %>
       <%= paginate @results %>
-  </div>
+    </div>
   </div>
 </div>

@@ -16,7 +16,7 @@
         <div class="col-12">
         <input id="address" type="textbox" placeholder="地図検索">
         <input type="button" value="Encode" onclick="codeAddress()">
-        <div id='map'></div><br>
+        <div id='map' class="img-responsive"></div><br>
 
         <style>
             #map {
@@ -106,9 +106,6 @@
             <div class="text-dark"><%= shop.shop_name %></div>
           <% end %>
           <div class=""><small class=""><%= shop.genre.name %></small></div>
-          <!--<div class="average-review-rating" data-score=<%#= t.reviews.average(:star) %>></div>-->
-          <!--<%#=@all_rating %>：<%#= t.reviews.average(:star).to_f.round(1) %>-->
-          <!--</div>-->
           <p><%= shop.map.prefecture %><%= shop.map.address %></p>
           <hr>
         <% end %>
