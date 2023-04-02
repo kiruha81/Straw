@@ -70,3 +70,4 @@ gem 'ransack'
 gem 'net-smtp'
 gem 'net-pop'
 gem 'net-imap'
+gem "google-cloud-translate"
